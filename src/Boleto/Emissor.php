@@ -78,7 +78,7 @@ class Emissor
                 'POST',
                 "recebimentos/{$credencial}/transacoes",
                 [
-                    'json' => json_encode($body),
+                    'json' => $body,
                     'headers' => [
                         'Content-Type' => 'Application/json',
                         'X-CHAVE' => $chave,
@@ -86,7 +86,7 @@ class Emissor
                 ]
             );
 
-            return json_decode((string) $res->getBody());
+            return json_decode((string) $res->getBody(), true);
         } catch (ClientException $e) {
             $responseBody = json_decode($e->getResponse()->getBody());
             throw new \Exception($responseBody->msg, $responseBody->status);

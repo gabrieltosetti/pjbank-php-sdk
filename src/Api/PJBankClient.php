@@ -32,7 +32,7 @@ class PJBankClient extends Api
      * Retorna o Client HTTP feito para a API do PJBank
      * @return GuzzleHttp\Client
      */
-    public function getClient() 
+    public function getClient(): Client
     {
         return $this->client;
     }

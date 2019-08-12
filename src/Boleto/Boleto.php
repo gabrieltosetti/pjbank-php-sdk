@@ -140,11 +140,31 @@ class Boleto
     }
 
     /**
+     * Setter do nosso numero
+     * @param string $link
+     */
+    public function setLink(string $link)
+    {
+        $this->link = $link;
+        return $this;
+    }
+
+    /**
      * @return mixed
      */
     public function getNossoNumero()
     {
         return $this->nosso_numero;
+    }
+
+    /**
+     * Setter do nosso numero
+     * @param string $nossoNumero
+     */
+    public function setNossoNumero(string $nossoNumero)
+    {
+        $this->nosso_numero = $nossoNumero;
+        return $this;
     }
 
     /**
@@ -154,6 +174,16 @@ class Boleto
     public function getIdUnico()
     {
         return $this->id_unico;
+    }
+
+    /**
+     * Setter do id numero
+     * @param int $idUnico
+     */
+    public function setIdUnico(int $idUnico)
+    {
+        $this->id_unico = $idUnico;
+        return $this;
     }
 
     /**
@@ -181,6 +211,16 @@ class Boleto
     public function getLinhaDigitavel()
     {
         return $this->linha_digitavel;
+    }
+
+    /**
+     * Setter da linha digitável
+     * @param string $linhaDigitavel
+     */
+    public function setLinhaDigitavel(string $linhaDigitavel)
+    {
+        $this->id_unico = $linhaDigitavel;
+        return $this;
     }
 
     /**
@@ -537,11 +577,9 @@ class Boleto
         $emissor = new Emissor($this);
         $boletoGerado = $emissor->emitir();
 
-        $this->nosso_numero = $boletoGerado->nossonumero;
-        $this->id_unico = $boletoGerado->id_unico;
-        $this->linha_digitavel = $boletoGerado->linhaDigitavel;
-        $this->link = $boletoGerado->linkBoleto;
+        $this->nosso_numero = $boletoGerado['nossonumero'];
+        $this->id_unico = $boletoGerado['id_unico'];
+        $this->linha_digitavel = $boletoGerado['linhaDigitavel'];
+        $this->link = $boletoGerado['linkBoleto'];
     }
-
-
 }

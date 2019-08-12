@@ -29,10 +29,19 @@ class LoteBoletos implements \Iterator, \Countable
      */
     private $boletos;
 
-    public function __construct(string $credencial, string $chave)
+    /**
+     * @param string $credencial Credencial da conta de boleto
+     * @param string $chave      Chave da conta de boleto
+     * @param array  $boletos    Array de Boleto
+     */
+    public function __construct(string $credencial, string $chave, array $boletos = null)
     {
-        $this->credencialBoleto = $credencial;
+        $this->credencial = $credencial;
         $this->chave = $chave;
+
+        if (!empty($boletos)) {
+            $this->boletos = $boletos;
+        }
     }
 
     function rewind()
@@ -60,7 +69,8 @@ class LoteBoletos implements \Iterator, \Countable
         return key($this->boletos) !== null;
     }
 
-    public function count() {
+    public function count()
+    {
         return count($this->boletos);
     }
 
@@ -80,16 +90,31 @@ class LoteBoletos implements \Iterator, \Countable
         return $this->chave;
     }
 
-    public function gerar()
+    public function toArray(): array
     {
-        $emissor = new Emissor($this);
-        $boletoGerado = $emissor->emitir();
+        if (!$this->boletos) {
+            return [];
+        }
 
-        $this->nosso_numero = $boletoGerado->nossonumero;
-        $this->id_unico = $boletoGerado->id_unico;
-        $this->linha_digitavel = $boletoGerado->linhaDigitavel;
-        $this->link = $boletoGerado->linkBoleto;
+        $boletos = [];
+
+        foreach ($this->boletos as $boleto) {
+            $boletos[] = $boleto->getValues();
+        }
+
+        return $boletos;
     }
 
+    public function gerar()
+    {
+        $boletosGerados = (new Emissor($this))->emitir();
 
+        foreach ($boletosGerados as $key => $boleto) {
+            $this->boletos[$key]
+                ->setNossoNumero($boleto['nossonumero'])
+                ->setIdUnico((int) $boleto['id_unico'])
+                ->setLinhaDigitavel($boleto['linhaDigitavel'])
+                ->setLink($boleto['linkBoleto']);
+        }
+    }
 }
