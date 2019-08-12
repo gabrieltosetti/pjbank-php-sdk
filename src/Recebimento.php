@@ -28,19 +28,19 @@ class Recebimento
 
     /**
      * Boleto Manager SDK
-     * @var Boleto
+     * @var BoletosManager
      */
     public $Boletos;
 
     /**
      * Cartões Manager SDK
-     * @var
+     * @var CartaoManager
      */
     public $Cartoes;
 
     /**
      * ExtratoManager SDK
-     * @var
+     * @var ExtratoManager
      */
     public $Extratos;
 
@@ -86,7 +86,4 @@ class Recebimento
     private function constructorExtrato() {
         $this->Extratos = new ExtratoManager($this->credencial, $this->chave);
     }
-
-
-
 }

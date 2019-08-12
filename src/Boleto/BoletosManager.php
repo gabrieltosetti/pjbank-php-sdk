@@ -43,6 +43,15 @@ class BoletosManager
     }
 
     /**
+     * Gera um lote de boletos
+     * @return \PJBank\Boleto\LoteBoletos
+     */
+    public function NovoLoteBoletos(): LoteBoletos
+    {
+        return new LoteBoletos($this->credencial_boletos, $this->chave_boletos);
+    }
+
+    /**
      * Gera o link do PDF com um ou mais boletos
      * @param array $boletos
      */
